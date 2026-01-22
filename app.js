@@ -98,7 +98,7 @@ app.use(express.static(path.join(__dirname,"/public")));
 
 const sessionOptions={
    
-    secret:"secret",
+    secret:process.env.SECRET,
     resave:false,
     saveUninitialized:true,
     cookie:{
