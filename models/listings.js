@@ -19,6 +19,15 @@ filename:String
     },
   
     location:String,
+    geometry:{
+        type:{
+            type:String,
+            enum:["Point"],
+            default:"Point"
+        },
+        coordinates:[Number],
+        default:[0,0]
+    },
     price:Number,
     country:String,
     reviews:[
@@ -27,7 +36,7 @@ filename:String
         ref:"Review",
         },
     ],
-    owner:{
+    listingSchema.index({ geometry: "2dsphere" });
         type:Schema.Types.ObjectId,
         ref:"User",
     },
@@ -47,4 +56,5 @@ listingSchema.post("findByIdAndDelete",async (listing)=>{
 
 
 
+listingSchema.index({ geometry: "2dsphere" });
 module.exports=Listings;

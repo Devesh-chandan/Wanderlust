@@ -1,4 +1,5 @@
-const Listings = require("../models/listings");
+const {geocode} = require("../utils/geocode.js");
+
 
 module.exports.index=async (req,res)=>{
     const allListings =await Listings.find({});
@@ -30,7 +31,12 @@ module.exports.createListing=async (req, res,next) => {
     
     let url=req.file.path;
     let filename=req.file.filename;
- const newlisting= new Listings(req.body.listing);
+     const coords = await geocode(req.body.listing.location);
+        newlisting.geometry = {
+            type: "Point",
+            coordinates: coords
+        };
+
  newlisting.owner=req.user._id;
  newlisting.image={url,filename};
  await newlisting.save();
@@ -53,7 +59,16 @@ module.exports.updateListing=async (req,res)=>{
     
 
 
-    let listing=await Listings.findByIdAndUpdate(id, { ...req.body.listing });
+    const listing = await Listings.findById(id);
+    if (listing) {
+        Object.assign(listing, req.body.listing);
+        const coords = await geocode(req.body.listing.location);
+        listing.geometry = {
+            type: "Point",
+            coordinates: coords
+        };
+    }
+
 
     if(typeof req.file!=="undefined"){
          let url=req.file.path;
