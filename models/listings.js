@@ -6,55 +6,48 @@ const Review=require("./review.js");
 const listingSchema=new Schema({
     title:{
         type:String,
-    required:true,
-},
-
-    description:String,
-    image:
-    
-    {
-url:String,
-filename:String
-
+        required:true,
     },
-  
+    description:String,
+    image:{
+        url:String,
+        filename:String,
+    },
     location:String,
     geometry:{
         type:{
             type:String,
             enum:["Point"],
-            default:"Point"
+            default:"Point",
         },
-        coordinates:[Number],
-        default:[0,0]
+        coordinates:{
+            type:[Number],
+            default:[0,0],
+        },
     },
     price:Number,
     country:String,
     reviews:[
         {
-        type:Schema.Types.ObjectId,
-        ref:"Review",
+            type:Schema.Types.ObjectId,
+            ref:"Review",
         },
     ],
-    listingSchema.index({ geometry: "2dsphere" });
+    owner:{
         type:Schema.Types.ObjectId,
         ref:"User",
     },
 });
 
-
+listingSchema.index({ geometry: "2dsphere" });
 
 listingSchema.post("findByIdAndDelete",async (listing)=>{
+    if(listing){
+        await Review.deleteMany({
+            _id:{$in:listing.reviews}
+        });
+    }
+});
 
-   if(listing){
-     await Review.deleteMany({
-        _id:{$in:listing.reviews}
-    });
-
-   }})
-   const Listings=mongoose.model("Listings",listingSchema);
-
-
-
-listingSchema.index({ geometry: "2dsphere" });
+const Listings=mongoose.model("Listings",listingSchema);
 module.exports=Listings;

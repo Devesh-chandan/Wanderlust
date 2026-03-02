@@ -1,3 +1,4 @@
+const Listings = require("../models/listings.js");
 const {geocode} = require("../utils/geocode.js");
 
 
@@ -28,18 +29,18 @@ if(!listing){
 
 module.exports.createListing=async (req, res,next) => {
 
-    
+    const newlisting = new Listings(req.body.listing);
     let url=req.file.path;
     let filename=req.file.filename;
-     const coords = await geocode(req.body.listing.location);
-        newlisting.geometry = {
-            type: "Point",
-            coordinates: coords
-        };
+    const coords = await geocode(req.body.listing.location);
+    newlisting.geometry = {
+        type: "Point",
+        coordinates: coords
+    };
 
- newlisting.owner=req.user._id;
- newlisting.image={url,filename};
- await newlisting.save();
+    newlisting.owner=req.user._id;
+    newlisting.image={url,filename};
+    await newlisting.save();
  req.flash("success","new listing successfully created!!");
     res.redirect("/listings");
    
@@ -69,17 +70,13 @@ module.exports.updateListing=async (req,res)=>{
         };
     }
 
-
     if(typeof req.file!=="undefined"){
-         let url=req.file.path;
-    let filename=req.file.filename;
-
-
-    listing.image={url,filename};
-
-    await listing.save();  
-
+        let url=req.file.path;
+        let filename=req.file.filename;
+        listing.image={url,filename};
     }
+
+    await listing.save();
    
     req.flash("success", "listing updated successfully");
     res.redirect(`/listings/${id}`);
