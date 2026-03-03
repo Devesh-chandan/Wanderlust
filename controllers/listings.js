@@ -30,8 +30,18 @@ if(!listing){
 module.exports.createListing=async (req, res,next) => {
 
     const newlisting = new Listings(req.body.listing);
-    let url=req.file.path;
-    let filename=req.file.filename;
+
+    // Handle image: Cloudinary v2 uses req.file.url/public_id, local uses req.file.path/filename
+    let url, filename;
+    if (req.file) {
+      url = req.file.url || req.file.path || ("/uploads/" + req.file.filename);
+      filename = req.file.public_id || req.file.filename;
+      // Local disk: convert filesystem path to web-servable path
+      if (!url.startsWith("http") && !url.startsWith("/uploads/")) {
+        url = "/uploads/" + req.file.filename;
+      }
+    }
+
     const coords = await geocode(req.body.listing.location);
     newlisting.geometry = {
         type: "Point",
@@ -71,8 +81,11 @@ module.exports.updateListing=async (req,res)=>{
     }
 
     if(typeof req.file!=="undefined"){
-        let url=req.file.path;
-        let filename=req.file.filename;
+        let url = req.file.url || req.file.path || ("/uploads/" + req.file.filename);
+        let filename = req.file.public_id || req.file.filename;
+        if (!url.startsWith("http") && !url.startsWith("/uploads/")) {
+          url = "/uploads/" + req.file.filename;
+        }
         listing.image={url,filename};
     }
 

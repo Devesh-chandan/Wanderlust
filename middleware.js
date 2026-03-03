@@ -16,6 +16,7 @@ module.exports.isLoggedIn=(req,res,next)=>{
 module.exports.saveRedirectUrl=(req,res,next)=>{
     if(req.session.redirectUrl){
         res.locals.redirectUrl=req.session.redirectUrl;
+        delete req.session.redirectUrl;
     }
     next();
 };
@@ -25,7 +26,12 @@ module.exports.isOwner=async (req,res,next)=>{
 
     const listing = await Listing.findById(id);
 
-    if (!listing.owner.equals(res.locals.currUsers._id)) {
+    if (!listing) {
+        req.flash("error", "listing not found");
+        return res.redirect("/listings");
+    }
+
+    if (!res.locals.currUsers || !listing.owner.equals(res.locals.currUsers._id)) {
         req.flash("error", "you dont have authority to update");
         return res.redirect(`/listings/${id}`);
     }
@@ -89,9 +95,14 @@ module.exports.validateReview = (req, res, next) => {
 module.exports.isReviewAuthor = async (req, res, next) => {
     let { id, reviewId } = req.params;
 
-    const review = await Review.findById(reviewId); // ✅ correct
+    const review = await Review.findById(reviewId);
 
-    if (!review.author.equals(res.locals.currUsers._id)) {
+    if (!review) {
+        req.flash("error", "review not found");
+        return res.redirect(`/listings/${id}`);
+    }
+
+    if (!res.locals.currUsers || !review.author.equals(res.locals.currUsers._id)) {
         req.flash("error", "you dont have authority to delete review");
         return res.redirect(`/listings/${id}`);
     }

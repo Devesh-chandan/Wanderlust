@@ -45,10 +45,10 @@
 
       <div class="navbar-nav ms-auto">
          <a class="nav-link" href="/listings/new">Airbnb your home</a>
-        <% if(currUsers==undefined) {%>
+        <% if(typeof currUsers === 'undefined' || !currUsers) {%>
         <a class="nav-link" href="/signup"><b>SignUp</b></a>
         <a class="nav-link" href="/login"><b>Login</b></a>
-        <%} %> <% if(currUsers!=undefined) {%>
+        <%} %> <% if(typeof currUsers !== 'undefined' && currUsers) {%>
 
         <a class="nav-link" href="/logout"><b>LogOut</b></a>
 

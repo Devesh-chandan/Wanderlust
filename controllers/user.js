@@ -1,13 +1,12 @@
 const User = require("../models/user");
-const {saveRedirectUrl}=require("../middleware.js");
-const passport=require("passport");
+
 
 
 
 module.exports.renderSignUp=(req,res)=>{
 res.render("users/signup.ejs");
 }
-module.exports.signUpuser=async(req,res)=>{
+module.exports.signUpuser=async(req,res,next)=>{
 try{
     let {username,email,password}=req.body;
 const newUser=new User({email,username});
@@ -18,10 +17,10 @@ console.log(registeredUser);
 
  req.login(registeredUser,(err)=>{
         if(err){
-            next(err);
+            return next(err);
         }
         
-        req.flash("success","welcome to wonderlust!!");
+        req.flash("success","welcome to wanderlust!!");
         res.redirect("/listings");
         
     })
@@ -39,14 +38,14 @@ module.exports.renderLogin=(req,res)=>{
 }
 
 module.exports.loginUser= async (req,res)=>{
-    req.flash("success","wlecome back to wanderlust !!")
+    req.flash("success","welcome back to wanderlust!!")
     let redirectUrl=res.locals.redirectUrl || "/listings";
     res.redirect(redirectUrl);
 
 };
 
 
-module.exports.logoutUser=(req,res)=>{
+module.exports.logoutUser=(req,res,next)=>{
     req.logout((err)=>{
         if(err){
             return next(err);

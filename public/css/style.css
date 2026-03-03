@@ -117,6 +117,15 @@ body{
     padding-right:0 !important;
 }
 
+/* Map */
+#map {
+    height: 350px;
+    width: 100%;
+    border-radius: 10px;
+    z-index: 1;
+    border: 1px solid #ddd;
+}
+
 /* Review star input*/
 .stars {
   display: inline-flex;

@@ -25,13 +25,6 @@ router.route("/")
 
 .post(isLoggedIn, 
       upload.single("listing[image]"), 
-      (req, res, next) => {
-          console.log("--- DEBUG START ---");
-          console.log("Req.body:", req.body);
-          console.log("Req.file:", req.file);
-          console.log("--- DEBUG END ---");
-          next(); 
-      },
       validatelisting,
       wrapAsync(listingController.createListing));
 

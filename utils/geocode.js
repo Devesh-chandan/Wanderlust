@@ -7,7 +7,7 @@ async function geocode(address) {
   const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encoded}`;
   const response = await fetch(url, {
     headers: {
-      "User-Agent": "Major‑Project1/1.0 (https://github.com/your-repo)"
+      "User-Agent": "Major-Project1/1.0 (https://github.com/your-repo)"
     }
   });
 
