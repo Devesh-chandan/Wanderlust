@@ -1,77 +1,74 @@
-if(process.env.NODE_ENV !="production"){
+if (process.env.NODE_ENV !== "production") {
     require("dotenv").config();
 }
- 
 
-const express=require("express");
-const app=express();
-const mongoose=require("mongoose");
-const Listings = require("./models/listings.js");
-const path=require("path");
-const methodOverride=require("method-override");
-const ejsMate=require("ejs-mate");
-const wrapAsync=require("./utils/wrapAsync.js");
-
-const ExpressError=require("./utils/ExpressError.js");
-const listingsRouter=require("./routes/listing.js");
-const reviewsRouter=require("./routes/reviews.js");
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const path = require("path");
+const methodOverride = require("method-override");
+const ejsMate = require("ejs-mate");
+const wrapAsync = require("./utils/wrapAsync.js");
+const ExpressError = require("./utils/ExpressError.js");
+const listingsRouter = require("./routes/listing.js");
+const reviewsRouter = require("./routes/reviews.js");
 const userRouter = require("./routes/user.js");
-const session=require("express-session");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
+const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/user.js");
 
-const flash=require("connect-flash");
-const passport=require("passport");
-const LocalStrategy=require("passport-local");
-const User=require("./models/user.js");
+// ─── Database Connection ─────────────────────────────────────────────────────
+const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const dbUrl = process.env.ATLASDB_URL || MONGO_URL;
 
-// ===== DATABASE CONFIGURATION =====
-// MongoDB Atlas (cloud) URL from .env file
-const ATLAS_URL = process.env.ATLASDB_URL;
-// MongoDB localhost URL for local development
-const LOCAL_MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
-// Use Atlas if available, otherwise fallback to localhost
-const dbUrl = ATLAS_URL || LOCAL_MONGO_URL;
+mongoose
+    .connect(dbUrl)
+    .then(() => {
+        console.log("✅ Connected to MongoDB");
+    })
+    .catch((err) => {
+        console.error("❌ MongoDB connection error:", err);
+        process.exit(1);
+    });
 
-main()
-  .then(() => {
-    console.log("connected to DB:", ATLAS_URL ? "MongoDB Atlas" : "localhost");
-  })
-  .catch((err) => {
-    console.log("DB connection error:", err);
-  });
+// ─── App Configuration ────────────────────────────────────────────────────────
+app.engine("ejs", ejsMate);
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
-async function main() {
-  await mongoose.connect(dbUrl);
-}
-// ===== END DATABASE CONFIGURATION =====
-
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(methodOverride("_method"));
-app.engine("ejs",ejsMate);
+app.use(express.static(path.join(__dirname, "/public")));
 
-app.set("view engine","ejs");
-app.set("views",path.join(__dirname,"views"));
-app.use(express.urlencoded({extended:true}));
-app.use(express.static(path.join(__dirname,"/public")));
+// ─── Session Store (MongoStore for production-ready persistence) ──────────────
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    touchAfter: 24 * 3600, // Only update session every 24h unless data changes
+});
 
-const sessionOptions={
-   
-    secret:process.env.SECRET,
-    resave:false,
-    saveUninitialized:true,
-    cookie:{
-        maxAge:7*24*60*60*1000,
-        httpOnly:true,
-    }
+store.on("error", (err) => {
+    console.error("❌ MongoStore session error:", err);
+});
+
+const sessionOptions = {
+    store,
+    secret: process.env.SECRET || "wanderlust_super_secret_session_key_2025_prod_secure_12345",
+    resave: false,
+    saveUninitialized: false, // Don't save empty sessions
+    cookie: {
+        expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        // secure: true, // Uncomment in production with HTTPS
+    },
 };
 
-
-
-// app.get("/",(req,res)=>{
-//     res.send("server is working");
-// });
-
-
+// ─── Middleware ───────────────────────────────────────────────────────────────
 app.use(session(sessionOptions));
-
 app.use(flash());
 
 passport.use(new LocalStrategy(User.authenticate()));
@@ -81,57 +78,39 @@ passport.deserializeUser(User.deserializeUser());
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use((req,res,next)=>{
-    res.locals.success=req.flash("success");
-    res.locals.error=req.flash("error");
-    res.locals.currUsers=req.user;
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+// Make flash messages and current user available to all views
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    res.locals.currUsers = req.user;
     next();
 });
 
+// ─── Routes ───────────────────────────────────────────────────────────────────
+app.use("/listings", listingsRouter);
+app.use("/listings/:id/reviews", reviewsRouter);
+app.use("/", userRouter);
 
-
-
-// app.get("/demouser",async (req,res)=>{
-//     const fakeUserr=new User({
-//         email:"dogesh@gmail.com",
-//         username:"dogesh123",
-//     });
-//     let newUser=await User.register(fakeUserr,"hello world!!");
-//     res.send(newUser);
-// })
-
-
-app.use("/listings",listingsRouter);
-app.use("/listings/:id/reviews",reviewsRouter);
-app.use("/",userRouter);
-
-
-// app.get("/testListings", async(req,res)=>{
-// let sampleListing =new Listings({
-//     title:"first listing",
-//     description:"sample default listing",
-//     location:"nagpur",
-//     price:1000000,
-//     country:"india",
-// });
-// await sampleListing.save();
-// console.log("sample was saved");
-// res.send("success testing");
-// });
-
-
-app.use((req,res,next)=>{
-    next(new ExpressError(404,"page not found!"));
+// ─── 404 Handler ─────────────────────────────────────────────────────────────
+app.use((req, res, next) => {
+    next(new ExpressError(404, "Page not found!"));
 });
 
-app.use((err,req,res,next)=>{
-    let {statusCode=500,message="something went wrong!!"}=err;
-
-    res.render("error.ejs",{err});
+// ─── Global Error Handler ─────────────────────────────────────────────────────
+app.use((err, req, res, next) => {
+    if (res.headersSent) {
+        return next(err);
+    }
+    const { statusCode = 500, message = "Something went wrong!" } = err;
+    res.status(statusCode).render("error.ejs", { err });
 });
 
-app.listen(8080,()=>{
-    console.log("server is listening");
+// ─── Start Server ─────────────────────────────────────────────────────────────
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+    console.log(`🚀 Server is listening on port ${PORT}`);
 });
-
-

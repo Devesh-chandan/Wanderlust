@@ -1,44 +1,77 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="row">
-  <div class="col-12 col-md-6 offset-md-3">
-    <h1 class="col-6 offset-3">Signup on wanderlust</h1>
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-header">
+      <i class="fa-regular fa-compass auth-logo"></i>
+      <h2>Join Wanderlust</h2>
+      <p class="text-muted">Create your free account and start exploring</p>
+    </div>
+
     <form action="/signup" method="POST" class="needs-validation" novalidate>
-      <div>
-        <label for="username" class="form-label">username</label>
-        <input
-          name="username"
-          id="username"
-          type="text"
-          class="form-control md-3"
-          required
-        />
-        <div class="valid-feedback">Title looks good!</div>
+      <div class="mb-3">
+        <label for="username" class="form-label fw-semibold">Username</label>
+        <div class="input-group">
+          <span class="input-group-text bg-light border-end-0">
+            <i class="fa-solid fa-user text-muted"></i>
+          </span>
+          <input
+            name="username"
+            id="username"
+            type="text"
+            class="form-control border-start-0"
+            placeholder="Choose a username"
+            required
+          />
+          <div class="invalid-feedback">Please choose a username.</div>
+        </div>
       </div>
 
-      <div>
-        <label for="email" class="form-label">email</label>
-        <input
-          name="email"
-          id="email"
-          type="email"
-          class="form-control"
-          required
-        />
-        <div class="valid-feedback">Valid email</div>
+      <div class="mb-3">
+        <label for="email" class="form-label fw-semibold">Email</label>
+        <div class="input-group">
+          <span class="input-group-text bg-light border-end-0">
+            <i class="fa-solid fa-envelope text-muted"></i>
+          </span>
+          <input
+            name="email"
+            id="email"
+            type="email"
+            class="form-control border-start-0"
+            placeholder="you@example.com"
+            required
+          />
+          <div class="invalid-feedback">Please enter a valid email.</div>
+        </div>
       </div>
-      <div>
-        <label for="password" class="form-label">password</label>
-        <input
-          name="password"
-          id="password"
-          type="password"
-          class="form-control"
-          required
-        />
-        <div class="valid-feedback">strong password</div>
+
+      <div class="mb-4">
+        <label for="password" class="form-label fw-semibold">Password</label>
+        <div class="input-group">
+          <span class="input-group-text bg-light border-end-0">
+            <i class="fa-solid fa-lock text-muted"></i>
+          </span>
+          <input
+            name="password"
+            id="password"
+            type="password"
+            class="form-control border-start-0"
+            placeholder="Create a strong password"
+            required
+            minlength="6"
+          />
+          <div class="invalid-feedback">Password must be at least 6 characters.</div>
+        </div>
       </div>
-      <button class="btn btn-success mb-3 mt-3">SignUp</button>
+
+      <button type="submit" class="btn btn-primary-custom w-100 mb-3">
+        <i class="fa-solid fa-user-plus me-2"></i>Create Account
+      </button>
+
+      <p class="text-center text-muted mb-0">
+        Already have an account?
+        <a href="/login" class="auth-link">Log in</a>
+      </p>
     </form>
   </div>
 </div>

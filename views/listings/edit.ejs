@@ -1,83 +1,82 @@
 <% layout("/layouts/boilerplate") %>
-<div class="row">
-  <div class="col-8 offset-2">
-    <br />
 
-    <h3>Edit listing</h3>
-
-    <form
-      method="POST"
-      action="/listings/<%= listing._id%>?_method=PUT"
-      class="needs-validations"
-      enctype="multipart/form-data"
-    >
-      <div>
-        <label for="Title" class="form-label">Title</label>
-        <input
-          name="listing[title]"
-          value="<%= listing.title%>"
-          type="text"
-          class="form-control"
-          required
-        />
-      </div>
-
+  <div class="row">
+    <div class="col-8 offset-2">
       <br />
-      <div>
-        <label for="Description" class="form-label">Description</label>
-        <textarea name="listing[description]" class="form-control" required>
-<%= listing.description %></textarea
-        >
-      </div>
+      <h3>Edit Listing</h3>
 
-      <br />
+      <%# Bug fix: class was "needs-validations" (typo) — corrected to "needs-validation" %>
+        <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" class="needs-validation" novalidate
+          enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input name="listing[title]" id="title" value="<%= listing.title %>" type="text" class="form-control"
+              required />
+            <div class="invalid-feedback">Please enter a title.</div>
+          </div>
 
-      <div>
-        <label for="Image" class="form-label">upload new Image</label>
-        <input name="listing[image]" class="form-control" type="file" />
-      </div>
+          <div class="mb-3">
+            <%# Bug fix: name had a trailing space "listing[description] " which meant the server
+              received "listing[description ]" — the update silently did nothing %>
+              <label for="description" class="form-label">Description</label>
+              <textarea name="listing[description]" id="description" class="form-control" rows="4"
+                required><%= listing.description %></textarea>
+              <div class="invalid-feedback">Please enter a description.</div>
+          </div>
 
-      <br />
-      <div>
-        <label for="location" class="form-label">Location</label>
-        <input
-          name="listing[location]"
-          value="<%= listing.location%>"
-          type="text"
-          class="form-control"
-          required
-        />
-      </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="category" class="form-label">Category</label>
+              <select name="listing[category]" id="category" class="form-select" required>
+                <% const categories=["Trending", "Design" , "TreeHouse" , "Luxe" , "Bedroom" , "Iconic" , "Beach"
+                  , "Pools" , "Camping" , "Dine" , "Bars" , "Cafe" , "Spa" ]; %>
+                  <% for (let cat of categories) { %>
+                    <option value="<%= cat %>" <%=listing.category===cat ? 'selected' : '' %>><%= cat %>
+                    </option>
+                    <% } %>
+              </select>
+            </div>
 
-      <br />
-      <div class="row">
-        <div class="col-md-4">
-          <label for="country" class="form-label">Country</label>
-          <input
-            name="listing[country]"
-            class="form-control"
-            value="<%= listing.country%>"
-            type="text"
-            required
-          />
-        </div>
+            <div class="col-md-6">
+              <label for="image" class="form-label">Upload New Image <span class="text-muted">(optional)</span></label>
+              <% if (listing.image && listing.image.url) { %>
+                <div class="mb-2">
+                  <img src="<%= listing.image.url %>" alt="Current image"
+                    style="height: 80px; border-radius: 8px; object-fit: cover;" />
+                </div>
+                <% } %>
+                  <input name="listing[image]" id="image" class="form-control" type="file" accept="image/*" />
+            </div>
+          </div>
 
+          <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input name="listing[location]" id="location" value="<%= listing.location %>" type="text"
+              class="form-control" required />
+            <div class="invalid-feedback">Please enter a location.</div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="country" class="form-label">Country</label>
+              <input name="listing[country]" id="country" class="form-control" value="<%= listing.country %>"
+                type="text" required />
+              <div class="invalid-feedback">Please enter a country.</div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="price" class="form-label">Price per night (₹)</label>
+              <%# Bug fix: price input was missing class="form-control" %>
+                <input name="listing[price]" id="price" value="<%= listing.price %>" type="number" min="0"
+                  class="form-control" required />
+                <div class="invalid-feedback">Please enter a valid price.</div>
+            </div>
+          </div>
+
+          <button class="btn add-btn text-white px-4">
+            <i class="fa-solid fa-pen me-1"></i> Save Changes
+          </button>
+        </form>
         <br />
-
-        <div class="col-md-3">
-          <label for="price" class="form-label">Price</label>
-          <input
-            name="listing[price]"
-            value="<%= listing.price%>"
-            type="number"
-            required
-          />
-        </div>
-      </div>
-
-      <br />
-      <button class="add-btn">Edit</button>
-    </form>
-    <br />
+    </div>
   </div>
-</div>

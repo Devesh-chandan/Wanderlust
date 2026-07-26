@@ -1,141 +1,164 @@
 <% layout("/layouts/boilerplate") %>
-<div class="row">
-  <div class="col-8 offset-3">
-    <br />
-    <h3><%= listing.title %></h3>
-    <br>
-    </div>
-    </div> 
-    <div class="card col-6 offset-3  show-card listing-card">
-      <img
-        src="<%= listing.image.url %>"
-        alt="<%= listing.title %> "
-        class="card-img-top show-img"
-        alt="Listing_image"
-      />
-      <br>
-      <div class="card-body">
-        <p class="card-text"><b><%=listing.title%></b>
-        <br>
-        <b>Created By:
-        <%=listing.owner.username%></b>
-        <br>
-        <br>
-    <%=listing.description%>
-    <br>
-    <br>
-    <b>
-&#8377;<%= listing.price ? listing.price.toLocaleString("en-IN") : "Price not set" %> /night
 
-
-<br>
-<b><%=listing.location%></b>
-<br>
-<b><%=listing.country%></b>
-<br>
-
-
-    
+  <%# Bug fix: was col-8 offset-3 (=11 columns, overflows Bootstrap's 12-col grid). Changed to col-8 offset-2 (=10
+    columns, leaves 1 col gutter on each side) %>
+    <div class="row">
+      <div class="col-8 offset-2 mt-3">
+        <h3>
+          <%= listing.title %>
+        </h3>
+        <p class="text-muted small">
+          <i class="fa-solid fa-location-dot me-1"></i>
+          <%= listing.location %>, <%= listing.country %>
+        </p>
       </div>
     </div>
 
-    <div class="col-6 offset-3 mb-3">
-      <div id="map"
-        data-lat="<%= listing.geometry && listing.geometry.coordinates ? listing.geometry.coordinates[1] : 0 %>"
-        data-lng="<%= listing.geometry && listing.geometry.coordinates ? listing.geometry.coordinates[0] : 0 %>"
-        data-title="<%= listing.title %>"
-        style="height: 350px; width: 100%; border-radius: 10px; z-index: 1;">
+    <div class="card col-6 offset-3 show-card listing-card mb-3">
+      <img src="<%= listing.image && listing.image.url ? listing.image.url : '/img/placeholder.jpg' %>"
+        alt="<%= listing.title %>" class="card-img-top show-img" />
+      <div class="card-body py-3">
+        <p class="card-text mb-1">
+          <b>
+            <%= listing.title %>
+          </b>
+        </p>
+        <p class="card-text text-muted small mb-1">
+          <b>Hosted by:</b>
+          <%= listing.owner ? listing.owner.username : "Unknown" %>
+        </p>
+        <p class="card-text mb-2">
+          <%= listing.description %>
+        </p>
+        <p class="card-text mb-0">
+          <b>&#8377;<%= listing.price ? listing.price.toLocaleString("en-IN") : "Price not set" %></b> /night
+        </p>
       </div>
     </div>
 
-<% if(typeof currUsers !== 'undefined' && currUsers && listing.owner._id.equals(currUsers._id)) { %>
-    <div class="col-8 offset-3">
-    <a href="/listings/<%=listing._id%>/edit"class="btn btn-dark col-2">Edit listing</a>
-
-    <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE">
-      <br />
-      <button class=" btn add-btn col-2">Delete</button>
-    </form>
-    </div>
-<% } %>
-
-
-
-    <br />
-<hr>
-
-
-
-  <div class="col-8 offset-3 mb-3">
-    <% if(typeof currUsers !== 'undefined' && currUsers){%>
-      <h4>Reveiw listing</h4>
-      <form action="/listings/<%= listing._id%>/reviews" method="POST" novalidate class="needs-validation">
-        
-
-<div class="rating mb-3 mt-3">
-  <label>Rating</label>
-  <div class="stars">
-    <input type="radio" id="star5" name="review[rating]" value="5">
-    <label for="star5">★</label>
-
-    <input type="radio" id="star4" name="review[rating]" value="4">
-    <label for="star4">★</label>
-
-    <input type="radio" id="star3" name="review[rating]" value="3">
-    <label for="star3">★</label>
-
-    <input type="radio" id="star2" name="review[rating]" value="2">
-    <label for="star2">★</label>
-
-    <input type="radio" id="star1" name="review[rating]" value="1">
-    <label for="star1">★</label>
-  </div>
-</div>
-
-<div class="mb-3 mt-3">
-  <label for="comment" class="form-label " >Comment </label>
-  <textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control" 
-  required></textarea>
-  <div class="invalid-feedback">Please add a comment</div>
-</div>
-<br>
-<button class="btn btn-dark" >Submit Review</button>
-<%}%>
-      </form>
-
-
-    
-      
-     
-        <p><b>All Reviews</b>    
-<div class="row">
-<% for ( review of listing.reviews) { %>
-    <div class="card col-5 ms-3 mb-3 ">
-      <div class="card-body">
-         <h5 class="card-title">
-  @<%= review.author ? review.author.username : "Deleted User" %>
-</h5>
-
-         <p class="card-text"><%=review.comment%>    
+    <%# Map Section %>
+      <div class="col-6 offset-3 mb-4">
+        <div id="map"
+          data-lat="<%= listing.geometry && listing.geometry.coordinates ? listing.geometry.coordinates[1] : 0 %>"
+          data-lng="<%= listing.geometry && listing.geometry.coordinates ? listing.geometry.coordinates[0] : 0 %>"
+          style="height: 350px; width: 100%; border-radius: 12px;"></div>
+        <p class="text-muted small mt-1"><i class="fa-solid fa-map-pin me-1"></i>
+          <%= listing.location %>, <%= listing.country %>
+        </p>
       </div>
-     <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
 
-        <button class="btn btn-sm add-btn">Delete Review</button>
-       </form>
-      
+      <%# Owner Actions: Edit / Delete — only visible to the listing owner %>
+        <% if (currUsers && listing.owner && listing.owner._id.equals(currUsers._id)) { %>
+          <div class="col-8 offset-2 mb-3 d-flex gap-2">
+            <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark">
+              <i class="fa-solid fa-pen me-1"></i> Edit Listing
+            </a>
+            <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+              <button class="btn btn-danger">
+                <i class="fa-solid fa-trash me-1"></i> Delete
+              </button>
+            </form>
+          </div>
+          <% } %>
 
-      <% for (let i = 1; i <= 5; i++) { %>
-        <% if (i <= review.rating) { %>
-          ★
-        <% } else { %>
-          ☆
-        <% } %>
-      <% } %>
-        </div>
-  <% } %>
-  </div>
+            <hr class="col-6 offset-3" />
 
-     
-    </div>
-  </div>
+            <%# Reviews Section %>
+              <div class="col-6 offset-3 mb-4">
 
+                <%# Bug fix: "if currUsers" block was not properly closing the form tag. The </form> was placed outside
+                  the if block, injecting an orphan form for guests.
+                  Now the entire review form (including its </form>) is inside the if block. %>
+                  <% if (currUsers) { %>
+                    <%# Bug fix: "Reveiw" typo fixed to "Review" %>
+                      <h4>Leave a Review</h4>
+                      <form action="/listings/<%= listing._id %>/reviews" method="POST" novalidate
+                        class="needs-validation">
+
+                        <div class="rating mb-3 mt-2">
+                          <label class="form-label">Rating</label>
+                          <div class="stars">
+                            <input type="radio" id="star5" name="review[rating]" value="5" required>
+                            <label for="star5">★</label>
+                            <input type="radio" id="star4" name="review[rating]" value="4">
+                            <label for="star4">★</label>
+                            <input type="radio" id="star3" name="review[rating]" value="3">
+                            <label for="star3">★</label>
+                            <input type="radio" id="star2" name="review[rating]" value="2">
+                            <label for="star2">★</label>
+                            <input type="radio" id="star1" name="review[rating]" value="1">
+                            <label for="star1">★</label>
+                          </div>
+                        </div>
+
+                        <div class="mb-3">
+                          <label for="comment" class="form-label">Your Comment</label>
+                          <textarea name="review[comment]" id="comment" cols="30" rows="4" class="form-control" required
+                            placeholder="Share your experience..."></textarea>
+                          <div class="invalid-feedback">Please add a comment.</div>
+                        </div>
+
+                        <button class="btn add-btn text-white">
+                          <i class="fa-solid fa-paper-plane me-1"></i> Submit Review
+                        </button>
+                      </form>
+                      <hr class="mt-4" />
+                      <% } %>
+
+                        <%# All Reviews %>
+                          <% if (listing.reviews && listing.reviews.length> 0) { %>
+                            <h4 class="mt-2">All Reviews <span class="badge bg-secondary ms-1"
+                                style="font-size:0.85rem;">
+                                <%= listing.reviews.length %>
+                              </span></h4>
+                            <div class="row g-3 mt-1">
+                              <% for (let review of listing.reviews) { %>
+                                <div class="col-12">
+                                  <div class="card review-card">
+                                    <div class="card-body">
+                                      <div class="d-flex justify-content-between align-items-start mb-1">
+                                        <h6 class="card-title mb-0">
+                                          <i class="fa-solid fa-user-circle me-1 text-muted"></i>
+                                          @<%= review.author ? review.author.username : "Deleted User" %>
+                                        </h6>
+                                        <%# Star display %>
+                                          <span class="star-display">
+                                            <% for (let i=1; i <=5; i++) { %>
+                                              <% if (i <=review.rating) { %><span class="text-warning">★</span>
+                                                <% } else { %><span class="text-muted">☆</span>
+                                                  <% } %>
+                                                    <% } %>
+                                          </span>
+                                      </div>
+                                      <p class="card-text mb-2">
+                                        <%= review.comment %>
+                                      </p>
+                                      <p class="text-muted small mb-2">
+                                        <i class="fa-regular fa-clock me-1"></i>
+                                        <%= review.createdAt ? review.createdAt.toLocaleDateString("en-IN", {
+                                          year: "numeric" , month: "short" , day: "numeric" }) : "" %>
+                                      </p>
+
+                                      <%# Bug fix: Delete Review was visible to ALL users. Now only shown to the
+                                        review's author OR the listing owner. %>
+                                        <% if (currUsers && review.author && (review.author._id.equals(currUsers._id) ||
+                                          listing.owner._id.equals(currUsers._id))) { %>
+                                          <form method="POST"
+                                            action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+                                            class="d-inline">
+                                            <button class="btn btn-sm btn-outline-danger">
+                                              <i class="fa-solid fa-trash me-1"></i> Delete
+                                            </button>
+                                          </form>
+                                          <% } %>
+                                    </div>
+                                  </div>
+                                </div>
+                                <% } %>
+                            </div>
+                            <% } else { %>
+                              <p class="text-muted mt-3"><i class="fa-regular fa-comment me-1"></i> No reviews yet. Be
+                                the first to review!</p>
+                              <% } %>
+
+              </div>

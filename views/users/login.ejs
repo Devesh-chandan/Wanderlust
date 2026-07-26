@@ -1,31 +1,56 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="row">
-  <div class="col-12 col-md-6 offset-md-3">
-    <h1 class="col-6 offset-3">Login to wanderlust</h1>
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-header">
+      <i class="fa-regular fa-compass auth-logo"></i>
+      <h2>Welcome back</h2>
+      <p class="text-muted">Sign in to your Wanderlust account</p>
+    </div>
+
     <form action="/login" method="POST" class="needs-validation" novalidate>
-      <div>
-        <label for="username" class="form-label">username</label>
-        <input
-          name="username"
-          id="username"
-          type="text"
-          class="form-control md-3"
-          required
-        />
+      <div class="mb-3">
+        <label for="username" class="form-label fw-semibold">Username</label>
+        <div class="input-group">
+          <span class="input-group-text bg-light border-end-0">
+            <i class="fa-solid fa-user text-muted"></i>
+          </span>
+          <input
+            name="username"
+            id="username"
+            type="text"
+            class="form-control border-start-0"
+            placeholder="Enter your username"
+            required
+          />
+        </div>
       </div>
 
-      <div>
-        <label for="password" class="form-label">password</label>
-        <input
-          name="password"
-          id="password"
-          type="password"
-          class="form-control"
-          required
-        />
+      <div class="mb-4">
+        <label for="password" class="form-label fw-semibold">Password</label>
+        <div class="input-group">
+          <span class="input-group-text bg-light border-end-0">
+            <i class="fa-solid fa-lock text-muted"></i>
+          </span>
+          <input
+            name="password"
+            id="password"
+            type="password"
+            class="form-control border-start-0"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
       </div>
-      <button class="btn btn-success mb-3 mt-3">Login</button>
+
+      <button type="submit" class="btn btn-primary-custom w-100 mb-3">
+        <i class="fa-solid fa-right-to-bracket me-2"></i>Log In
+      </button>
+
+      <p class="text-center text-muted mb-0">
+        Don't have an account?
+        <a href="/signup" class="auth-link">Sign up for free</a>
+      </p>
     </form>
   </div>
 </div>

@@ -1,26 +1,31 @@
-// Utility to convert an address string to latitude/longitude using OpenStreetMap Nominatim
-// Returns a promise that resolves to [longitude, latitude] or rejects if not found
-// Nominatim rate limits 1 request per second; adjust as needed.
+// Utility to convert an address string to [longitude, latitude] using OpenStreetMap Nominatim.
+// Returns [longitude, latitude] or throws if the address cannot be found.
+// Nominatim rate-limits to 1 request/second — respect that in production.
 
 async function geocode(address) {
-  const encoded = encodeURIComponent(address);
-  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encoded}`;
-  const response = await fetch(url, {
-    headers: {
-      "User-Agent": "Major-Project1/1.0 (https://github.com/your-repo)"
+    const encoded = encodeURIComponent(address);
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encoded}`;
+
+    const response = await fetch(url, {
+        headers: {
+            // Bug fix: original had a Unicode em-dash (‑) in the User-Agent string
+            // which can cause API request failures. Using a plain ASCII hyphen.
+            "User-Agent": "Wanderlust-App/1.0 (educational project)",
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error(`Geocoding request failed: ${response.statusText}`);
     }
-  });
 
-  if (!response.ok) {
-    throw new Error(`Geocoding failed: ${response.statusText}`);
-  }
+    const data = await response.json();
 
-  const data = await response.json();
-  if (!data.length) {
-    throw new Error("Address not found");
-  }
-  const { lon, lat } = data[0];
-  return [parseFloat(lon), parseFloat(lat)];
+    if (!data || !data.length) {
+        throw new Error(`Address not found: "${address}"`);
+    }
+
+    const { lon, lat } = data[0];
+    return [parseFloat(lon), parseFloat(lat)];
 }
 
 module.exports = { geocode };
