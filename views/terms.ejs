@@ -1,0 +1,78 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+.legal-container {
+  max-width: 860px;
+  margin: 2rem auto 4rem auto;
+  padding: 2.5rem;
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+}
+
+.legal-header {
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.legal-header h1 {
+  font-weight: 800;
+  font-size: 2rem;
+  color: #222222;
+}
+
+.legal-section-title {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #222222;
+  margin-top: 2rem;
+  margin-bottom: 0.8rem;
+}
+
+.legal-text {
+  color: #555555;
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+</style>
+
+<div class="legal-container">
+  <div class="legal-header">
+    <h1>Terms of Service</h1>
+    <p class="text-muted small mb-0">Last updated: <%= new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }) %></p>
+  </div>
+
+  <div class="legal-content">
+    <p class="legal-text">
+      Welcome to Wanderlust! By accessing or using our platform, you agree to comply with and be bound by these Terms of Service. Please read them carefully before using our platform.
+    </p>
+
+    <h3 class="legal-section-title">1. Guest & Host Agreement</h3>
+    <p class="legal-text">
+      Hosts are responsible for providing accurate property listings, photos, pricing, and guidelines. Guests agree to treat properties with respect and follow all house rules specified by the host.
+    </p>
+
+    <h3 class="legal-section-title">2. Member Accounts</h3>
+    <p class="legal-text">
+      You must register an account to host or leave reviews. You are responsible for maintaining the confidentiality of your login credentials and for all activities under your account.
+    </p>
+
+    <h3 class="legal-section-title">3. Content & Reviews</h3>
+    <p class="legal-text">
+      Users may post reviews and ratings. Content must be truthful, authentic, and respectful. Wanderlust reserves the right to remove any inappropriate or fraudulent reviews.
+    </p>
+
+    <h3 class="legal-section-title">4. Limitation of Liability</h3>
+    <p class="legal-text">
+      Wanderlust provides the platform on an "as is" basis to facilitate property listings and guest connections. We are not liable for direct, indirect, or incidental damages resulting from property stays or user interactions.
+    </p>
+  </div>
+
+  <div class="mt-4 pt-3 border-top">
+    <a href="/listings" class="btn btn-outline-dark rounded-pill px-4">
+      <i class="fa-solid fa-arrow-left me-1"></i> Back to Listings
+    </a>
+  </div>
+</div>

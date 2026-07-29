@@ -1,21 +1,78 @@
 <footer class="site-footer mt-auto">
-  <div class="f-info">
-    <div class="f-info-socials">
-      <a href="#" aria-label="Email" class="social-icon"><i class="fa-solid fa-envelope"></i></a>
-      <a href="#" aria-label="Message" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
-      <a href="#" aria-label="Twitter/X" class="social-icon"><i class="fa-brands fa-x-twitter"></i></a>
-      <a href="https://github.com" target="_blank" aria-label="GitHub" class="social-icon"><i class="fa-brands fa-github"></i></a>
+  <div class="footer-top border-top py-5">
+    <div class="container px-4">
+      <div class="row g-4 justify-content-between">
+        <!-- Brand Column -->
+        <div class="col-lg-4 col-md-12 mb-3 mb-lg-0">
+          <a class="d-flex align-items-center gap-2 text-decoration-none mb-3" href="/listings">
+            <i class="fa-regular fa-compass" style="color:#fe424d; font-size:2.2rem;"></i>
+            <span class="fs-4 fw-bold text-dark">Wander<span style="color:#fe424d;">lust</span></span>
+          </a>
+          <p class="text-secondary small mb-4 lh-base pe-lg-3">
+            Discover extraordinary stays, unique experiences, and unforgettable travel destinations worldwide. Book your dream escape today.
+          </p>
+          <h6 class="footer-heading mb-2">Connect With Us</h6>
+          <div class="footer-socials d-flex align-items-center gap-2">
+            <a href="https://github.com/Devesh-chandan/Wanderlust" target="_blank" aria-label="GitHub Repository" class="social-btn" title="GitHub"><i class="fa-brands fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/devesh-chandan-697654332/" target="_blank" aria-label="LinkedIn Profile" class="social-btn" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=deveshc1012@gmail.com" target="_blank" aria-label="Compose Gmail to deveshc1012@gmail.com" class="social-btn" title="Compose in Gmail"><i class="fa-solid fa-envelope"></i></a>
+          </div>
+        </div>
+
+        <!-- Column 1: Explore Destinations -->
+        <div class="col-lg-3 col-md-4 col-6">
+          <h6 class="footer-heading mb-3">Explore</h6>
+          <ul class="list-unstyled footer-link-list small mb-0">
+            <li><a href="/listings">All Listings</a></li>
+            <li><a href="/listings?category=Trending">Trending Stays</a></li>
+            <li><a href="/listings?category=Luxe">Luxury Villas</a></li>
+            <li><a href="/listings?category=Beach">Beachfront Houses</a></li>
+            <li><a href="/listings?category=Camping">Camping &amp; Outdoors</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Hosting -->
+        <div class="col-lg-2 col-md-4 col-6">
+          <h6 class="footer-heading mb-3">Hosting</h6>
+          <ul class="list-unstyled footer-link-list small mb-0">
+            <li><a href="/listings/new">Airbnb your home</a></li>
+            <li><a href="/listings/new">List your property</a></li>
+            <li><a href="/privacy">Host Guidelines</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Legal & Support -->
+        <div class="col-lg-3 col-md-4 col-12">
+          <h6 class="footer-heading mb-3">Support &amp; Legal</h6>
+          <ul class="list-unstyled footer-link-list small mb-0">
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/terms">Terms of Service</a></li>
+            <li><a href="/security">Security &amp; Safety</a></li>
+            <li><a href="/cancellation">Cancellation Options</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class="f-info-brand">
-      <i class="fa-regular fa-compass me-1" style="color:#fe424d;"></i>
-      &copy; 2025 WanderLust Pvt Ltd
-    </div>
-    <div class="f-info-links">
-      <a href="#">Privacy</a>
-      <span class="mx-2">·</span>
-      <a href="#">Terms &amp; Conditions</a>
-      <span class="mx-2">·</span>
-      <a href="#">Sitemap</a>
+  </div>
+
+  <!-- Footer Bottom Bar (Clean Airbnb Layout) -->
+  <div class="footer-bottom border-top py-3">
+    <div class="container px-4 d-flex flex-wrap justify-content-between align-items-center gap-3 small text-dark">
+      <div class="d-flex flex-wrap align-items-center gap-2">
+        <span class="fw-semibold">&copy; <%= new Date().getFullYear() %> Wanderlust, Inc.</span>
+        <span class="text-secondary d-none d-sm-inline">·</span>
+        <a href="/privacy" class="footer-sublink">Privacy</a>
+        <span class="text-secondary">·</span>
+        <a href="/terms" class="footer-sublink">Terms</a>
+        <span class="text-secondary">·</span>
+        <a href="/privacy" class="footer-sublink">Sitemap</a>
+        <span class="text-secondary">·</span>
+        <a href="/privacy" class="footer-sublink">Company Details</a>
+      </div>
+      <div class="d-flex align-items-center gap-3 ms-auto ms-md-0">
+        <span class="d-inline-flex align-items-center gap-1.5 fw-semibold"><i class="fa-solid fa-globe me-1"></i> English (IN)</span>
+        <span class="fw-semibold">&#8377; INR</span>
+      </div>
     </div>
   </div>
 </footer>

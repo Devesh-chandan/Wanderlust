@@ -91,6 +91,21 @@ app.use((req, res, next) => {
 });
 
 // ─── Routes ───────────────────────────────────────────────────────────────────
+app.get("/", (req, res) => {
+    res.redirect("/listings");
+});
+app.get("/privacy", (req, res) => {
+    res.render("privacy.ejs");
+});
+app.get("/terms", (req, res) => {
+    res.render("terms.ejs");
+});
+app.get("/security", (req, res) => {
+    res.render("security.ejs");
+});
+app.get("/cancellation", (req, res) => {
+    res.render("cancellation.ejs");
+});
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", userRouter);

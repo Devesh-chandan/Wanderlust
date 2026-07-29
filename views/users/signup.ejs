@@ -1,25 +1,85 @@
 <% layout("/layouts/boilerplate") %>
 
+<style>
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 16rem);
+  padding: 2.5rem 1rem;
+}
+
+.auth-card-modern {
+  background: #ffffff;
+  border: 1px solid #eaeaea;
+  border-radius: 24px;
+  padding: 2.8rem 2.2rem;
+  width: 100%;
+  max-width: 460px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+}
+
+.auth-brand-badge {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: #fff5f5;
+  border: 1px solid #ffe8e8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fe424d;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.auth-input-group {
+  position: relative;
+}
+
+.auth-input-group i {
+  position: absolute;
+  left: 1.1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  z-index: 5;
+}
+
+.auth-input-group .form-control {
+  border-radius: 14px !important;
+  padding: 0.8rem 1rem 0.8rem 2.8rem !important;
+  border: 1px solid #dce0e4;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.auth-input-group .form-control:focus {
+  border-color: #fe424d;
+  box-shadow: 0 0 0 4px rgba(254, 66, 77, 0.12);
+}
+</style>
+
 <div class="auth-page">
-  <div class="auth-card">
-    <div class="auth-header">
-      <i class="fa-regular fa-compass auth-logo"></i>
-      <h2>Join Wanderlust</h2>
-      <p class="text-muted">Create your free account and start exploring</p>
+  <div class="auth-card-modern">
+    <div class="text-center mb-4">
+      <div class="auth-brand-badge">
+        <i class="fa-regular fa-compass"></i>
+      </div>
+      <h2 class="fw-bold text-dark mb-1">Join Wanderlust</h2>
+      <p class="text-muted small">Create your free account and start exploring</p>
     </div>
 
     <form action="/signup" method="POST" class="needs-validation" novalidate>
       <div class="mb-3">
-        <label for="username" class="form-label fw-semibold">Username</label>
-        <div class="input-group">
-          <span class="input-group-text bg-light border-end-0">
-            <i class="fa-solid fa-user text-muted"></i>
-          </span>
+        <label for="username" class="form-label fw-semibold text-dark small">Username</label>
+        <div class="auth-input-group">
+          <i class="fa-solid fa-user"></i>
           <input
             name="username"
             id="username"
             type="text"
-            class="form-control border-start-0"
+            class="form-control"
             placeholder="Choose a username"
             required
           />
@@ -28,16 +88,14 @@
       </div>
 
       <div class="mb-3">
-        <label for="email" class="form-label fw-semibold">Email</label>
-        <div class="input-group">
-          <span class="input-group-text bg-light border-end-0">
-            <i class="fa-solid fa-envelope text-muted"></i>
-          </span>
+        <label for="email" class="form-label fw-semibold text-dark small">Email</label>
+        <div class="auth-input-group">
+          <i class="fa-solid fa-envelope"></i>
           <input
             name="email"
             id="email"
             type="email"
-            class="form-control border-start-0"
+            class="form-control"
             placeholder="you@example.com"
             required
           />
@@ -46,16 +104,14 @@
       </div>
 
       <div class="mb-4">
-        <label for="password" class="form-label fw-semibold">Password</label>
-        <div class="input-group">
-          <span class="input-group-text bg-light border-end-0">
-            <i class="fa-solid fa-lock text-muted"></i>
-          </span>
+        <label for="password" class="form-label fw-semibold text-dark small">Password</label>
+        <div class="auth-input-group">
+          <i class="fa-solid fa-lock"></i>
           <input
             name="password"
             id="password"
             type="password"
-            class="form-control border-start-0"
+            class="form-control"
             placeholder="Create a strong password"
             required
             minlength="6"
@@ -64,14 +120,15 @@
         </div>
       </div>
 
-      <button type="submit" class="btn btn-primary-custom w-100 mb-3">
+      <button type="submit" class="btn btn-primary-custom w-100 py-2.5 rounded-pill fw-bold fs-6 shadow-sm mb-3">
         <i class="fa-solid fa-user-plus me-2"></i>Create Account
       </button>
 
-      <p class="text-center text-muted mb-0">
+      <p class="text-center text-muted small mb-0">
         Already have an account?
         <a href="/login" class="auth-link">Log in</a>
       </p>
     </form>
   </div>
 </div>
+

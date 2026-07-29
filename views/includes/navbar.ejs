@@ -14,17 +14,20 @@
     position: relative;
     max-width: 420px;
     width: 100%;
+    display: flex;
+    align-items: center;
   }
 
   .search-input {
     border-radius: 30px !important;
     padding-left: 1.2rem !important;
-    padding-right: 3rem !important;
+    padding-right: 3.5rem !important;
     height: 2.8rem;
     border: 1px solid #ddd;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     font-size: 0.88rem;
     transition: all 0.2s ease;
+    width: 100%;
   }
 
   .search-input:focus {
@@ -37,23 +40,32 @@
     right: 5px;
     top: 50%;
     transform: translateY(-50%);
-    background-color: #fe424d;
-    color: white;
-    border-radius: 50%;
-    width: 2.2rem;
-    height: 2.2rem;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
+    background-color: #fe424d !important;
+    color: #ffffff !important;
+    border-radius: 50% !important;
+    width: 2.2rem !important;
+    height: 2.2rem !important;
+    min-width: 2.2rem !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: none !important;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 2px 6px rgba(254, 66, 77, 0.4);
     transition: background-color 0.2s ease, transform 0.15s ease;
   }
 
+  .btn-search i {
+    font-size: 0.9rem !important;
+    color: #ffffff !important;
+  }
+
   .btn-search:hover {
-    background-color: #e03040;
-    color: white;
-    transform: translateY(-50%) scale(1.05);
+    background-color: #e03040 !important;
+    color: #ffffff !important;
+    transform: translateY(-50%) scale(1.06);
   }
 
   .user-badge {
@@ -66,6 +78,40 @@
     display: flex;
     align-items: center;
     gap: 0.4rem;
+  }
+
+  .host-home-btn {
+    background-color: #ffffff;
+    color: #222222 !important;
+    border: 1px solid #e0e0e0;
+    border-radius: 30px;
+    padding: 0.45rem 1.1rem !important;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    transition: all 0.25s ease;
+  }
+
+  .host-home-btn i {
+    color: #fe424d;
+    font-size: 0.95rem;
+    transition: transform 0.2s ease;
+  }
+
+  .host-home-btn:hover {
+    background-color: #fff5f5;
+    border-color: #fe424d;
+    color: #fe424d !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(254, 66, 77, 0.15);
+  }
+
+  .host-home-btn:hover i {
+    transform: scale(1.15) rotate(-5deg);
   }
 </style>
 
@@ -104,10 +150,11 @@
       </form>
 
       <!-- Right nav -->
-      <ul class="navbar-nav ms-auto mb-2 mb-md-0 align-items-md-center gap-1">
-        <li class="nav-item">
-          <a class="nav-link" href="/listings/new">
-            <i class="fa-solid fa-house-chimney me-1"></i>Airbnb your home
+      <ul class="navbar-nav ms-auto mb-2 mb-md-0 align-items-md-center gap-2">
+        <li class="nav-item me-1">
+          <a class="nav-link host-home-btn" href="/listings/new">
+            <i class="fa-solid fa-house-user"></i>
+            <span>Host Your Space</span>
           </a>
         </li>
 

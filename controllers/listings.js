@@ -8,31 +8,39 @@ const DEFAULT_IMAGE = {
     filename: "default_listing_image",
 };
 
-// Helper function to safely upload to Cloudinary with Base64 data URI fallback
+// Helper function to safely process uploaded image file across MemoryStorage, DiskStorage, or CloudinaryStorage
 const processImageUpload = async (file) => {
     if (!file) return null;
     try {
-        const uploadResult = await new Promise((resolve, reject) => {
-            const stream = cloudinary.uploader.upload_stream(
-                { folder: "Wanderlust_DEV" },
-                (error, result) => {
-                    if (error) return reject(error);
-                    resolve(result);
-                }
-            );
-            stream.end(file.buffer);
-        });
-        return {
-            url: uploadResult.secure_url,
-            filename: uploadResult.public_id,
-        };
+        // If CloudinaryStorage or MemoryStorage with buffer
+        if (file.path && file.path.startsWith("http")) {
+            return {
+                url: file.path,
+                filename: file.filename || file.public_id || "cloudinary_image",
+            };
+        }
+        
+        // DiskStorage file (multer saves to public/uploads)
+        if (file.filename) {
+            return {
+                url: `/uploads/${file.filename}`,
+                filename: file.filename,
+            };
+        }
+
+        // Buffer upload (MemoryStorage fallback)
+        if (file.buffer) {
+            const base64 = file.buffer.toString("base64");
+            return {
+                url: `data:${file.mimetype};base64,${base64}`,
+                filename: file.originalname || "uploaded_image",
+            };
+        }
+
+        return null;
     } catch (err) {
-        console.warn("Cloudinary upload notice (using fallback Data URI):", err.message);
-        const base64 = file.buffer.toString("base64");
-        return {
-            url: `data:${file.mimetype};base64,${base64}`,
-            filename: file.originalname || "uploaded_image",
-        };
+        console.warn("Image processing error fallback:", err.message);
+        return DEFAULT_IMAGE;
     }
 };
 
