@@ -2,6 +2,7 @@ const cloudinary = require("cloudinary");
 const cloudinaryStorage = require("multer-storage-cloudinary");
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 
 // Check if Cloudinary credentials are available
 const hasCloudinary =
@@ -30,9 +31,14 @@ if (hasCloudinary) {
     console.log("Image storage: Cloudinary");
 } else {
     // ===== LOCAL DISK STORAGE (for localhost development) =====
+    const uploadsDir = path.join(__dirname, "public/uploads");
+    if (!fs.existsSync(uploadsDir)) {
+        fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+
     storage = multer.diskStorage({
         destination: function (req, file, cb) {
-            cb(null, path.join(__dirname, "public/uploads"));
+            cb(null, uploadsDir);
         },
         filename: function (req, file, cb) {
             const uniqueName = Date.now() + "-" + Math.round(Math.random() * 1e9);

@@ -137,62 +137,62 @@
   <div id="filters">
     <a href="/listings?category=Trending" class="filter <%= activeCategory === 'Trending' ? 'active' : '' %>">
       <div class="filter-icon-wrapper"><i class="fa-solid fa-fire"></i></div>
-      <p>Trending</p>
+      <p data-i18n="cat_trending">Trending</p>
     </a>
     <a href="/listings?category=Design" class="filter <%= activeCategory === 'Design' ? 'active' : '' %>">
       <div class="filter-icon-wrapper"><i class="fa-solid fa-pen-to-square"></i></div>
-      <p>Design</p>
+      <p data-i18n="cat_design">Design</p>
     </a>
     <a href="/listings?category=TreeHouse" class="filter <%= activeCategory === 'TreeHouse' ? 'active' : '' %>">
       <div class="filter-icon-wrapper"><i class="fa-solid fa-tree-city"></i></div>
-      <p>TreeHouse</p>
+      <p data-i18n="cat_treehouse">TreeHouse</p>
     </a>
     <a href="/listings?category=Luxe" class="filter <%= activeCategory === 'Luxe' ? 'active' : '' %>">
       <div class="filter-icon-wrapper"><i class="fa-solid fa-hotel"></i></div>
-      <p>Luxe</p>
+      <p data-i18n="cat_luxe">Luxe</p>
     </a>
     <a href="/listings?category=Bedroom" class="filter <%= activeCategory === 'Bedroom' ? 'active' : '' %>">
       <div class="filter-icon-wrapper"><i class="fa-solid fa-bed"></i></div>
-      <p>Bedroom</p>
+      <p data-i18n="cat_bedroom">Bedroom</p>
     </a>
     <a href="/listings?category=Iconic" class="filter <%= activeCategory === 'Iconic' ? 'active' : '' %>">
       <div class="filter-icon-wrapper"><i class="fa-solid fa-mountain-city"></i></div>
-      <p>Iconic</p>
+      <p data-i18n="cat_iconic">Iconic</p>
     </a>
     <a href="/listings?category=Beach" class="filter <%= activeCategory === 'Beach' ? 'active' : '' %>">
       <div class="filter-icon-wrapper"><i class="fa-solid fa-umbrella-beach"></i></div>
-      <p>Beach</p>
+      <p data-i18n="cat_beach">Beach</p>
     </a>
     <a href="/listings?category=Pools" class="filter <%= activeCategory === 'Pools' ? 'active' : '' %>">
       <div class="filter-icon-wrapper"><i class="fa-solid fa-person-swimming"></i></div>
-      <p>Pools</p>
+      <p data-i18n="cat_pools">Pools</p>
     </a>
     <a href="/listings?category=Camping" class="filter <%= activeCategory === 'Camping' ? 'active' : '' %>">
       <div class="filter-icon-wrapper"><i class="fa-solid fa-tent"></i></div>
-      <p>Camping</p>
+      <p data-i18n="cat_camping">Camping</p>
     </a>
     <a href="/listings?category=Dine" class="filter <%= activeCategory === 'Dine' ? 'active' : '' %>">
       <div class="filter-icon-wrapper"><i class="fa-solid fa-bell-concierge"></i></div>
-      <p>Dine</p>
+      <p data-i18n="cat_dine">Dine</p>
     </a>
     <a href="/listings?category=Bars" class="filter <%= activeCategory === 'Bars' ? 'active' : '' %>">
       <div class="filter-icon-wrapper"><i class="fa-solid fa-martini-glass"></i></div>
-      <p>Bars</p>
+      <p data-i18n="cat_bars">Bars</p>
     </a>
     <a href="/listings?category=Cafe" class="filter <%= activeCategory === 'Cafe' ? 'active' : '' %>">
       <div class="filter-icon-wrapper"><i class="fa-solid fa-mug-saucer"></i></div>
-      <p>Cafe</p>
+      <p data-i18n="cat_cafe">Cafe</p>
     </a>
     <a href="/listings?category=Spa" class="filter <%= activeCategory === 'Spa' ? 'active' : '' %>">
       <div class="filter-icon-wrapper"><i class="fa-solid fa-spa"></i></div>
-      <p>Spa</p>
+      <p data-i18n="cat_spa">Spa</p>
     </a>
   </div>
 
   <div class="tax-toggle">
     <div class="form-check-reverse form-switch">
       <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault" />
-      <label class="form-check-label ms-2" for="switchCheckDefault">Display total before taxes</label>
+      <label class="form-check-label ms-2" for="switchCheckDefault" data-i18n="tax_toggle">Display total before taxes</label>
     </div>
   </div>
 </div>
@@ -240,8 +240,8 @@
               <i class="fa-solid fa-location-dot me-1"></i><%= listing.location %>, <%= listing.country %>
             </p>
             <p class="card-text">
-              <b>&#8377;<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %></b> /night
-              <i class="tax-info text-muted small">&nbsp;+18% GST</i>
+              <b class="listing-price" data-base-price="<%= listing.price || 0 %>">&#8377;<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %></b> <span data-i18n="night">/night</span>
+              <i class="tax-info text-muted small" data-i18n="gst_info">&nbsp;+18% GST</i>
             </p>
           </div>
         </div>
@@ -250,6 +250,35 @@
   <% } %>
 </div>
 <% } %>
+
+<!-- Clean Airbnb-Style Host Section -->
+<div class="host-cta-section my-5">
+  <div class="card border-0 rounded-4 overflow-hidden position-relative" style="background: linear-gradient(135deg, #ffffff 0%, #fff7f7 100%); border: 1px solid #ffdcdb !important; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);">
+    <div class="row align-items-center g-4 p-4 p-lg-5">
+      <div class="col-lg-7 text-start">
+        <h2 class="fw-bold text-dark mb-3" style="font-size: 2.1rem; letter-spacing: -0.7px; line-height: 1.25;">
+          Try hosting your space on Wanderlust
+        </h2>
+        <p class="text-secondary mb-0" style="font-size: 1rem; line-height: 1.65; max-width: 600px; color: #525252 !important;">
+          Turn your extra space into extra income. Join thousands of hosts welcoming travelers around the world with full control over availability, pricing, and house rules.
+        </p>
+      </div>
+
+      <div class="col-lg-5 text-lg-end text-start">
+        <div class="d-flex flex-column flex-sm-row justify-content-lg-end align-items-stretch align-items-sm-center gap-3">
+          <a href="/listings/new" class="btn add-btn text-white rounded-pill px-4 py-2.5 fw-bold shadow-sm d-inline-flex align-items-center justify-content-center gap-2">
+            <i class="fa-solid fa-circle-plus"></i>
+            <span>List Your Property</span>
+          </a>
+          <a href="/host-guidelines" class="btn btn-outline-dark rounded-pill px-4 py-2.5 fw-bold d-inline-flex align-items-center justify-content-center gap-2" style="border-color: #d1d5db;">
+            <i class="fa-solid fa-book-open"></i>
+            <span>Host Guidelines</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 document.getElementById("switchCheckDefault").addEventListener("click", () => {

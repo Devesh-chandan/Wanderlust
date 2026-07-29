@@ -12,10 +12,11 @@ const DEFAULT_IMAGE = {
 const processImageUpload = async (file) => {
     if (!file) return null;
     try {
-        // If CloudinaryStorage or MemoryStorage with buffer
-        if (file.path && file.path.startsWith("http")) {
+        const fileUrl = file.secure_url || file.path;
+        // If CloudinaryStorage or http URL
+        if (fileUrl && (fileUrl.startsWith("http://") || fileUrl.startsWith("https://"))) {
             return {
-                url: file.path,
+                url: fileUrl,
                 filename: file.filename || file.public_id || "cloudinary_image",
             };
         }
@@ -146,14 +147,13 @@ module.exports.updateListing = async (req, res) => {
         return res.redirect("/listings");
     }
 
+    const existingImage = listing.image;
+
     Object.assign(listing, req.body.listing);
 
-    // Re-geocode if location changed
-    try {
-        const coords = await geocode(req.body.listing.location);
-        listing.geometry = { type: "Point", coordinates: coords };
-    } catch (geoErr) {
-        console.warn("Geocoding failed on update:", geoErr.message);
+    // Preserve existing image if update didn't contain image URL
+    if (!listing.image || (!listing.image.url && existingImage && existingImage.url)) {
+        listing.image = existingImage;
     }
 
     // Process new image file if uploaded
@@ -162,6 +162,14 @@ module.exports.updateListing = async (req, res) => {
         if (imgData) {
             listing.image = imgData;
         }
+    }
+
+    // Re-geocode if location changed
+    try {
+        const coords = await geocode(req.body.listing.location);
+        listing.geometry = { type: "Point", coordinates: coords };
+    } catch (geoErr) {
+        console.warn("Geocoding failed on update:", geoErr.message);
     }
 
     await listing.save();

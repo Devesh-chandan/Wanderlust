@@ -106,6 +106,9 @@ app.get("/security", (req, res) => {
 app.get("/cancellation", (req, res) => {
     res.render("cancellation.ejs");
 });
+app.get("/host-guidelines", (req, res) => {
+    res.render("host-guidelines.ejs");
+});
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", userRouter);

@@ -1,17 +1,21 @@
 <footer class="site-footer mt-auto">
-  <div class="footer-top border-top py-5">
+  <!-- Back-to-Top Floating Control -->
+  <a href="#" class="back-to-top-btn" aria-label="Back to Top" title="Back to Top">
+    <i class="fa-solid fa-chevron-up"></i>
+  </a>
+
+  <div class="footer-top py-5">
     <div class="container px-4">
       <div class="row g-4 justify-content-between">
         <!-- Brand Column -->
         <div class="col-lg-4 col-md-12 mb-3 mb-lg-0">
           <a class="d-flex align-items-center gap-2 text-decoration-none mb-3" href="/listings">
-            <i class="fa-regular fa-compass" style="color:#fe424d; font-size:2.2rem;"></i>
             <span class="fs-4 fw-bold text-dark">Wander<span style="color:#fe424d;">lust</span></span>
           </a>
-          <p class="text-secondary small mb-4 lh-base pe-lg-3">
+          <p class="text-secondary small mb-4 lh-base pe-lg-3" data-i18n="footer_tagline">
             Discover extraordinary stays, unique experiences, and unforgettable travel destinations worldwide. Book your dream escape today.
           </p>
-          <h6 class="footer-heading mb-2">Connect With Us</h6>
+          <h6 class="footer-heading mb-2" data-i18n="connect_with_us">Connect With Us</h6>
           <div class="footer-socials d-flex align-items-center gap-2">
             <a href="https://github.com/Devesh-chandan/Wanderlust" target="_blank" aria-label="GitHub Repository" class="social-btn" title="GitHub"><i class="fa-brands fa-github"></i></a>
             <a href="https://www.linkedin.com/in/devesh-chandan-697654332/" target="_blank" aria-label="LinkedIn Profile" class="social-btn" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
@@ -21,34 +25,33 @@
 
         <!-- Column 1: Explore Destinations -->
         <div class="col-lg-3 col-md-4 col-6">
-          <h6 class="footer-heading mb-3">Explore</h6>
+          <h6 class="footer-heading mb-3" data-i18n="explore">Explore</h6>
           <ul class="list-unstyled footer-link-list small mb-0">
-            <li><a href="/listings">All Listings</a></li>
-            <li><a href="/listings?category=Trending">Trending Stays</a></li>
-            <li><a href="/listings?category=Luxe">Luxury Villas</a></li>
-            <li><a href="/listings?category=Beach">Beachfront Houses</a></li>
-            <li><a href="/listings?category=Camping">Camping &amp; Outdoors</a></li>
+            <li><a href="/listings" data-i18n="cat_all">All Listings</a></li>
+            <li><a href="/listings?category=Trending" data-i18n="cat_trending">Trending Stays</a></li>
+            <li><a href="/listings?category=Luxe" data-i18n="cat_luxe">Luxury Villas</a></li>
+            <li><a href="/listings?category=Beach" data-i18n="cat_beach">Beachfront Houses</a></li>
+            <li><a href="/listings?category=Camping" data-i18n="cat_camping">Camping &amp; Outdoors</a></li>
           </ul>
         </div>
 
         <!-- Column 2: Hosting -->
         <div class="col-lg-2 col-md-4 col-6">
-          <h6 class="footer-heading mb-3">Hosting</h6>
+          <h6 class="footer-heading mb-3" data-i18n="hosting_heading">Hosting</h6>
           <ul class="list-unstyled footer-link-list small mb-0">
-            <li><a href="/listings/new">Airbnb your home</a></li>
-            <li><a href="/listings/new">List your property</a></li>
-            <li><a href="/privacy">Host Guidelines</a></li>
+            <li><a href="/listings/new" data-i18n="list_your_property">List your property</a></li>
+            <li><a href="/host-guidelines" data-i18n="host_guidelines">Host Guidelines</a></li>
           </ul>
         </div>
 
         <!-- Column 3: Legal & Support -->
         <div class="col-lg-3 col-md-4 col-12">
-          <h6 class="footer-heading mb-3">Support &amp; Legal</h6>
+          <h6 class="footer-heading mb-3" data-i18n="support_legal_heading">Support &amp; Legal</h6>
           <ul class="list-unstyled footer-link-list small mb-0">
-            <li><a href="/privacy">Privacy Policy</a></li>
-            <li><a href="/terms">Terms of Service</a></li>
-            <li><a href="/security">Security &amp; Safety</a></li>
-            <li><a href="/cancellation">Cancellation Options</a></li>
+            <li><a href="/privacy" data-i18n="privacy_policy">Privacy Policy</a></li>
+            <li><a href="/terms" data-i18n="terms_of_service">Terms of Service</a></li>
+            <li><a href="/security" data-i18n="security_safety">Security &amp; Safety</a></li>
+            <li><a href="/cancellation" data-i18n="cancellation_options">Cancellation Options</a></li>
           </ul>
         </div>
       </div>
@@ -59,19 +62,38 @@
   <div class="footer-bottom border-top py-3">
     <div class="container px-4 d-flex flex-wrap justify-content-between align-items-center gap-3 small text-dark">
       <div class="d-flex flex-wrap align-items-center gap-2">
-        <span class="fw-semibold">&copy; <%= new Date().getFullYear() %> Wanderlust, Inc.</span>
+        <span class="fw-semibold">&copy; <%= new Date().getFullYear() %> <span data-i18n="rights_reserved">Wanderlust, Inc. All rights reserved.</span></span>
         <span class="text-secondary d-none d-sm-inline">·</span>
-        <a href="/privacy" class="footer-sublink">Privacy</a>
+        <a href="/privacy" class="footer-sublink" data-i18n="privacy_policy">Privacy</a>
         <span class="text-secondary">·</span>
-        <a href="/terms" class="footer-sublink">Terms</a>
-        <span class="text-secondary">·</span>
-        <a href="/privacy" class="footer-sublink">Sitemap</a>
-        <span class="text-secondary">·</span>
-        <a href="/privacy" class="footer-sublink">Company Details</a>
+        <a href="/terms" class="footer-sublink" data-i18n="terms_of_service">Terms</a>
       </div>
       <div class="d-flex align-items-center gap-3 ms-auto ms-md-0">
-        <span class="d-inline-flex align-items-center gap-1.5 fw-semibold"><i class="fa-solid fa-globe me-1"></i> English (IN)</span>
-        <span class="fw-semibold">&#8377; INR</span>
+        <div class="lang-pill-box">
+          <i class="fa-solid fa-globe text-danger me-1"></i>
+          <select class="lang-select-input lang-selector-select" aria-label="Language Selector">
+            <option value="en">English (EN)</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="fr">Français (French)</option>
+            <option value="de">Deutsch (German)</option>
+            <option value="es">Español (Spanish)</option>
+            <option value="it">Italiano (Italian)</option>
+            <option value="ja">日本語 (Japanese)</option>
+            <option value="zh-CN">中文 (Chinese)</option>
+            <option value="ar">العربية (Arabic)</option>
+            <option value="ru">Русский (Russian)</option>
+            <option value="pt">Português (Portuguese)</option>
+          </select>
+        </div>
+        <div class="currency-pill-box">
+          <i class="fa-solid fa-coins text-warning me-1"></i>
+          <select class="currency-select-input currency-selector-select" aria-label="Select Currency">
+            <option value="INR">₹ INR</option>
+            <option value="USD">$ USD</option>
+            <option value="EUR">€ EUR</option>
+            <option value="GBP">£ GBP</option>
+          </select>
+        </div>
       </div>
     </div>
   </div>

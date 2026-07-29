@@ -95,12 +95,21 @@
 
       <div class="col-md-6">
         <label for="image" class="form-label fw-bold text-dark">Cover Image</label>
-        <% if (listing.image && listing.image.url) { %>
-          <div class="mb-2 d-flex align-items-center gap-2">
-            <img src="<%= listing.image.url %>" alt="Current image" style="height: 60px; width: 90px; border-radius: 8px; object-fit: cover;" class="border shadow-sm" />
-            <span class="text-muted extra-small">Current image preview</span>
+        <div class="mb-2 d-flex align-items-center gap-3">
+          <img 
+            id="previewImg" 
+            src="<%= (listing.image && listing.image.url) ? listing.image.url : 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' %>" 
+            alt="Listing cover image preview" 
+            style="height: 70px; width: 100px; border-radius: 10px; object-fit: cover;" 
+            class="border shadow-sm" 
+          />
+          <div>
+            <span id="previewBadge" class="badge bg-secondary-subtle text-secondary border fw-medium">
+              Current Image Preview
+            </span>
+            <p class="text-muted extra-small mb-0 mt-1" id="fileInfo">Select a new image below to update</p>
           </div>
-        <% } %>
+        </div>
         <input name="listing[image]" id="image" class="form-control custom-form-control" type="file" accept="image/*" />
       </div>
     </div>
@@ -138,4 +147,31 @@
     </div>
 
   </form>
-</div>
+</div>
+
+<script>
+  const imageInput = document.getElementById('image');
+  const previewImg = document.getElementById('previewImg');
+  const previewBadge = document.getElementById('previewBadge');
+  const fileInfo = document.getElementById('fileInfo');
+
+  if (imageInput && previewImg) {
+    imageInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          previewImg.src = event.target.result;
+          if (previewBadge) {
+            previewBadge.className = "badge bg-success-subtle text-success border border-success-subtle fw-medium";
+            previewBadge.textContent = "New Selected Image Preview";
+          }
+          if (fileInfo) {
+            fileInfo.textContent = `Selected: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+</script>

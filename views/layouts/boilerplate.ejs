@@ -9,6 +9,13 @@
   <meta name="theme-color" content="#fe424d" />
   <title>Wanderlust – Find Your Next Adventure</title>
 
+  <!-- Immediate check for preloader session flag to prevent any animation or flash on reload/navigation -->
+  <script>
+    if (sessionStorage.getItem('hasSeenPreloader')) {
+      document.documentElement.classList.add('preloader-disabled');
+    }
+  </script>
+
   <!-- Custom CSS -->
   <link rel="stylesheet" href="/css/style.css" />
 
@@ -34,6 +41,62 @@
 </head>
 
 <body>
+  <!-- Wanderlust Initial Start Splash Screen (Runs ONLY ONCE per session) -->
+  <div id="wanderlustPreloader" class="preloader-overlay">
+    <div class="preloader-ambient-glow"></div>
+    <div class="preloader-content text-center">
+      <!-- Animated Compass Motif -->
+      <div class="preloader-compass-wrapper">
+        <svg class="preloader-compass-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="46" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" stroke-dasharray="4 4" class="compass-outer-ring" />
+          <circle cx="50" cy="50" r="38" stroke="url(#compassGradient)" stroke-width="2" class="compass-inner-ring" />
+          <path d="M50 14 L56 46 L50 42 L44 46 Z" fill="#fe424d" class="needle-north" />
+          <path d="M50 86 L56 54 L50 58 L44 54 Z" fill="rgba(255, 255, 255, 0.4)" class="needle-south" />
+          <circle cx="50" cy="50" r="4" fill="#ffffff" />
+          <defs>
+            <linearGradient id="compassGradient" x1="0" y1="0" x2="100" y2="100">
+              <stop offset="0%" stop-color="#fe424d" />
+              <stop offset="100%" stop-color="#ff7b5a" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <!-- Kinetic Staggered Brand Title -->
+      <h1 class="preloader-brand-title" aria-label="Wanderlust">
+        <span class="brand-word wander-word">
+          <span class="char" style="--i:1">W</span>
+          <span class="char" style="--i:2">a</span>
+          <span class="char" style="--i:3">n</span>
+          <span class="char" style="--i:4">d</span>
+          <span class="char" style="--i:5">e</span>
+          <span class="char" style="--i:6">r</span>
+        </span>
+        <span class="brand-word lust-word">
+          <span class="char" style="--i:7">l</span>
+          <span class="char" style="--i:8">u</span>
+          <span class="char" style="--i:9">s</span>
+          <span class="char" style="--i:10">t</span>
+        </span>
+      </h1>
+
+      <!-- Tagline with Sparkles -->
+      <div class="preloader-tagline">
+        <span class="tagline-sparkle">✦</span>
+        <span class="tagline-text">Discover Extraordinary Stays</span>
+        <span class="tagline-sparkle">✦</span>
+      </div>
+
+      <!-- Progress Track & Percentage Counter -->
+      <div class="preloader-loader-box">
+        <div class="preloader-progress-track">
+          <div class="preloader-progress-fill" id="preloaderProgressFill"></div>
+        </div>
+        <div class="preloader-counter" id="preloaderCounter">0%</div>
+      </div>
+    </div>
+  </div>
+
   <%- include("../includes/navbar.ejs") %>
     <div class="container mt-2">
       <%- include("../includes/flash.ejs") %>
@@ -46,7 +109,22 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
       <script src="/js/script.js"></script>
+      <script src="/js/i18n.js"></script>
+      <script src="/js/currency.js"></script>
       <script src="/js/map.js"></script>
+
+      <!-- Google Translate Integration Engine -->
+      <div id="google_translate_element" style="display:none;"></div>
+      <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            autoDisplay: false
+          }, 'google_translate_element');
+        }
+      </script>
+      <script type="text/javascript"
+        src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 
 </html>

@@ -104,6 +104,21 @@
 
       <div class="col-md-6">
         <label for="image" class="form-label fw-bold text-dark">Cover Image</label>
+        <div id="imagePreviewContainer" class="mb-2 d-none align-items-center gap-3">
+          <img 
+            id="previewImg" 
+            src="" 
+            alt="New image preview" 
+            style="height: 70px; width: 100px; border-radius: 10px; object-fit: cover;" 
+            class="border shadow-sm" 
+          />
+          <div>
+            <span class="badge bg-success-subtle text-success border border-success-subtle fw-medium">
+              Image Preview
+            </span>
+            <p class="text-muted extra-small mb-0 mt-1" id="fileInfo"></p>
+          </div>
+        </div>
         <input name="listing[image]" id="image" type="file" class="form-control custom-form-control" accept="image/*" />
       </div>
     </div>
@@ -142,4 +157,32 @@
 
   </form>
 </div>
+
+<script>
+  const imageInput = document.getElementById('image');
+  const previewImg = document.getElementById('previewImg');
+  const previewContainer = document.getElementById('imagePreviewContainer');
+  const fileInfo = document.getElementById('fileInfo');
+
+  if (imageInput && previewImg) {
+    imageInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          previewImg.src = event.target.result;
+          previewContainer.classList.remove('d-none');
+          previewContainer.classList.add('d-flex');
+          if (fileInfo) {
+            fileInfo.textContent = `Selected: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+          }
+        };
+        reader.readAsDataURL(file);
+      } else {
+        previewContainer.classList.add('d-none');
+        previewContainer.classList.remove('d-flex');
+      }
+    });
+  }
+</script>
 

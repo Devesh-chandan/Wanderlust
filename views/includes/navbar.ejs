@@ -120,8 +120,7 @@
 
     <!-- Brand -->
     <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none" href="/listings">
-      <i class="fa-regular fa-compass" style="color:#fe424d; font-size:2rem;"></i>
-      <span class="navbar-brand-text">Wander<span>lust</span></span>
+      <span class="navbar-brand-text fs-4">Wander<span>lust</span></span>
     </a>
 
     <!-- Mobile toggle -->
@@ -135,14 +134,14 @@
       <!-- Left nav -->
       <ul class="navbar-nav me-auto mb-2 mb-md-0">
         <li class="nav-item">
-          <a class="nav-link" href="/listings">Explore</a>
+          <a class="nav-link" href="/listings" data-i18n="explore">Explore</a>
         </li>
       </ul>
 
       <!-- Enhanced Search Bar (Center) -->
       <form class="d-flex mx-auto search-container" action="/listings" method="GET">
         <input class="form-control search-input" type="search" name="q"
-          placeholder="Search destinations, villas, beaches..." aria-label="Search"
+          placeholder="Search destinations, villas, beaches..." data-i18n-placeholder="search_placeholder" aria-label="Search"
           value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>" />
         <button class="btn btn-search" type="submit" aria-label="Search">
           <i class="fa-solid fa-magnifying-glass"></i>
@@ -151,19 +150,52 @@
 
       <!-- Right nav -->
       <ul class="navbar-nav ms-auto mb-2 mb-md-0 align-items-md-center gap-2">
+        <!-- Google Translate Language Selector -->
+        <li class="nav-item">
+          <div class="lang-pill-box">
+            <i class="fa-solid fa-globe text-danger me-1"></i>
+            <select class="lang-select-input lang-selector-select" aria-label="Language Selector">
+              <option value="en">English (EN)</option>
+              <option value="hi">हिन्दी (Hindi)</option>
+              <option value="fr">Français (French)</option>
+              <option value="de">Deutsch (German)</option>
+              <option value="es">Español (Spanish)</option>
+              <option value="it">Italiano (Italian)</option>
+              <option value="ja">日本語 (Japanese)</option>
+              <option value="zh-CN">中文 (Chinese)</option>
+              <option value="ar">العربية (Arabic)</option>
+              <option value="ru">Русский (Russian)</option>
+              <option value="pt">Português (Portuguese)</option>
+            </select>
+          </div>
+        </li>
+
+        <!-- Currency Selector -->
+        <li class="nav-item">
+          <div class="currency-pill-box">
+            <i class="fa-solid fa-coins text-warning me-1"></i>
+            <select class="currency-select-input currency-selector-select" aria-label="Currency Selector">
+              <option value="INR">₹ INR</option>
+              <option value="USD">$ USD</option>
+              <option value="EUR">€ EUR</option>
+              <option value="GBP">£ GBP</option>
+            </select>
+          </div>
+        </li>
+
         <li class="nav-item me-1">
           <a class="nav-link host-home-btn" href="/listings/new">
             <i class="fa-solid fa-house-user"></i>
-            <span>Host Your Space</span>
+            <span data-i18n="host_your_space">Host Your Space</span>
           </a>
         </li>
 
         <% if (!currUsers) { %>
           <li class="nav-item">
-            <a class="nav-link" href="/signup"><b>Sign Up</b></a>
+            <a class="nav-link" href="/signup"><b data-i18n="sign_up">Sign Up</b></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/login"><b>Log In</b></a>
+            <a class="nav-link" href="/login"><b data-i18n="log_in">Log In</b></a>
           </li>
           <% } else { %>
             <li class="nav-item d-flex align-items-center">
@@ -174,7 +206,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/logout">
-                <i class="fa-solid fa-right-from-bracket me-1"></i>Log Out
+                <i class="fa-solid fa-right-from-bracket me-1"></i><span data-i18n="log_out">Log Out</span>
               </a>
             </li>
             <% } %>
